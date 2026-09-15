@@ -1,0 +1,18 @@
+# CustomerById is a service/admin query. Resolve id from verified identity.
+query CustomerById($id: ID!) {
+  user(id: $id) { ...CustomerIdentityFields }
+}
+
+# Me requires the customer's access token, never an app/service token.
+query Me {
+  me { ...CustomerIdentityFields }
+}
+
+fragment CustomerIdentityFields on User {
+  id
+  email
+  firstName
+  lastName
+  isActive
+  languageCode
+}

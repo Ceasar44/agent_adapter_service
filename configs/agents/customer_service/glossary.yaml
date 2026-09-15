@@ -1,0 +1,17 @@
+- id: channel
+  name: Saleor channel
+  description: The store sales context that determines currency, prices and publication. Browser channel context must be validated by Saleor.
+  synonyms: [sales channel]
+- id: variant
+  name: Product variant
+  description: A specific purchasable product option such as a size and color combination, identified by its own variant ID.
+  synonyms: [SKU, size and color]
+- id: checkout
+  name: Checkout
+  description: The customer's purchase preparation flow. Opening checkout does not place an order or submit payment.
+- id: order_status
+  name: Order status
+  description: Saleor's authoritative fulfillment state; payment status is separate and an unfulfilled order need not be unpaid.
+- id: cart_summary
+  name: Cart summary
+  description: Browser-reported shopping context, not authoritative evidence of price, inventory or successful purchase.

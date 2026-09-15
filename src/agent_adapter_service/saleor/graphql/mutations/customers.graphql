@@ -1,0 +1,23 @@
+# Admin operations only. The service must allowlist editable customer fields.
+mutation CustomerCreate($input: UserCreateInput!) {
+  customerCreate(input: $input) {
+    user { ...CustomerMutationFields }
+    errors { field message code }
+  }
+}
+
+mutation CustomerUpdate($id: ID!, $input: CustomerInput!) {
+  customerUpdate(id: $id, input: $input) {
+    user { ...CustomerMutationFields }
+    errors { field message code }
+  }
+}
+
+fragment CustomerMutationFields on User {
+  id
+  email
+  firstName
+  lastName
+  isActive
+  languageCode
+}

@@ -1,0 +1,21 @@
+# Channel discovery requires the appropriate service/admin credentials.
+query ChannelList {
+  channels { ...ChannelSummaryFields }
+}
+
+query ChannelById($id: ID!) {
+  channel(id: $id) { ...ChannelSummaryFields }
+}
+
+query ChannelBySlug($slug: String!) {
+  channel(slug: $slug) { ...ChannelSummaryFields }
+}
+
+fragment ChannelSummaryFields on Channel {
+  id
+  name
+  slug
+  currencyCode
+  isActive
+  defaultCountry { code country }
+}

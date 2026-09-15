@@ -1,0 +1,25 @@
+# Admin operations only; policy/state checks and audit belong in the service.
+mutation OrderCancel($id: ID!) {
+  orderCancel(id: $id) {
+    order { id number status }
+    errors { field message code }
+  }
+}
+
+# input explicitly supplies line quantities, warehouses and notification policy.
+mutation OrderFulfill($orderId: ID!, $input: OrderFulfillInput!) {
+  orderFulfill(order: $orderId, input: $input) {
+    order { id number status }
+    fulfillments {
+      id
+      status
+      trackingNumber
+      lines {
+        id
+        quantity
+        orderLine { id }
+      }
+    }
+    errors { field message code }
+  }
+}

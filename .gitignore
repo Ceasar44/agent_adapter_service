@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+.env
+*.egg-info/
+*.db
+*.db-shm
+*.db-wal
+
+.vscode/
+.cache/
+parlant-data/

@@ -1,0 +1,9 @@
+app_name: agent_adapter_service
+default_agent_id: customer_service
+request_timeout_seconds: 30
+frontend_state_max_bytes: 65536
+database_enabled: false
+database_create_schema: false
+saleor_enabled: false
+rag_enabled: false
+parlant_enabled: false

@@ -1,0 +1,50 @@
+# Admin operations only. PromotionCreateInput contains the initial discount rules.
+mutation PromotionCreate($input: PromotionCreateInput!) {
+  promotionCreate(input: $input) {
+    promotion { ...PromotionSummaryFields }
+    errors { field message code }
+  }
+}
+
+# Saleor has no enabled flag: services enable/disable using startDate/endDate.
+# Set dates explicitly and validate the resulting interval before submission.
+mutation PromotionUpdate($id: ID!, $input: PromotionUpdateInput!) {
+  promotionUpdate(id: $id, input: $input) {
+    promotion { ...PromotionSummaryFields }
+    errors { field message code }
+  }
+}
+
+# Discount predicates, channel scope and reward values are updated on rules.
+mutation PromotionRuleCreate($input: PromotionRuleCreateInput!) {
+  promotionRuleCreate(input: $input) {
+    promotionRule { ...PromotionRuleFields }
+    errors { field message code }
+  }
+}
+
+mutation PromotionRuleUpdate($id: ID!, $input: PromotionRuleUpdateInput!) {
+  promotionRuleUpdate(id: $id, input: $input) {
+    promotionRule { ...PromotionRuleFields }
+    errors { field message code }
+  }
+}
+
+fragment PromotionSummaryFields on Promotion {
+  id
+  name
+  type
+  startDate
+  endDate
+}
+
+fragment PromotionRuleFields on PromotionRule {
+  id
+  name
+  cataloguePredicate
+  orderPredicate
+  rewardValue
+  rewardValueType
+  rewardType
+  channels { id slug currencyCode }
+}

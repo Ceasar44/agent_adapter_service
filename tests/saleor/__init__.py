@@ -1,0 +1,1 @@
+"""Saleor integration tests."""

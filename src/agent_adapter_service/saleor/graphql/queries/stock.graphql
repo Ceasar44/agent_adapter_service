@@ -1,0 +1,6 @@
+query StockList($first: Int!, $after: String, $filter: StockFilterInput) {
+  stocks(first: $first, after: $after, filter: $filter) {
+    edges { node { id warehouse { id } productVariant { id } quantity quantityAllocated } }
+    pageInfo { hasNextPage hasPreviousPage startCursor endCursor }
+  }
+}

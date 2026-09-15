@@ -1,0 +1,36 @@
+# Admin operations only. Select operationName; inspect payload errors even on HTTP 200.
+mutation ProductCreate($input: ProductCreateInput!) {
+  productCreate(input: $input) {
+    product { id name slug }
+    errors { field message code }
+  }
+}
+
+mutation ProductUpdate($id: ID!, $input: ProductInput!) {
+  productUpdate(id: $id, input: $input) {
+    product { id name slug }
+    errors { field message code }
+  }
+}
+
+# Publishing/unpublishing is channel-specific: supply updateChannels entries
+# containing channelId and isPublished (and availability settings as needed).
+mutation ProductChannelListingUpdate(
+  $id: ID!
+  $input: ProductChannelListingUpdateInput!
+) {
+  productChannelListingUpdate(id: $id, input: $input) {
+    product {
+      id
+      channelListings {
+        channel { id slug currencyCode }
+        isPublished
+        publishedAt
+        visibleInListings
+        isAvailableForPurchase
+        availableForPurchaseAt
+      }
+    }
+    errors { field message code }
+  }
+}

@@ -1,0 +1,32 @@
+# Admin operations only; currency is determined by the selected channel.
+mutation VariantCreate($input: ProductVariantCreateInput!) {
+  productVariantCreate(input: $input) {
+    productVariant { id name sku product { id } trackInventory }
+    errors { field message code }
+  }
+}
+
+mutation VariantUpdate($id: ID!, $input: ProductVariantInput!) {
+  productVariantUpdate(id: $id, input: $input) {
+    productVariant { id name sku product { id } trackInventory }
+    errors { field message code }
+  }
+}
+
+# Each input entry supplies channelId and price; validate currency in the service.
+mutation VariantChannelListingUpdate(
+  $id: ID!
+  $input: [ProductVariantChannelListingAddInput!]!
+) {
+  productVariantChannelListingUpdate(id: $id, input: $input) {
+    variant {
+      id
+      sku
+      channelListings {
+        channel { id slug currencyCode }
+        price { amount currency }
+      }
+    }
+    errors { field message code }
+  }
+}

@@ -1,0 +1,51 @@
+# Version control, editor and agent metadata
+.git/
+.gitignore
+.github/
+.vscode/
+.idea/
+.agents/
+.codex/
+**/AGENTS.md
+
+# Local environments, caches and build artifacts
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.py[cod]
+**/*.egg-info/
+**/.pytest_cache/
+**/.ruff_cache/
+**/.mypy_cache/
+**/.cache/
+build/
+dist/
+htmlcov/
+.coverage*
+coverage.xml
+
+# Credentials must be injected at runtime, never baked into the image.
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+
+# Local runtime data and logs
+parlant-data/
+runtime-data/
+data/
+logs/
+**/*.log
+**/*.db
+**/*.db-*
+**/*.sqlite
+**/*.sqlite-*
+**/*.sqlite3
+**/*.sqlite3-*
+
+# Tests and documentation are not runtime inputs. README.md is needed by setuptools.
+tests/
+docs/
+schema.graphql
+Dockerfile*
+.dockerignore

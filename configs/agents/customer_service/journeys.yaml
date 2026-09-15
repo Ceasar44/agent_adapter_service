@@ -1,0 +1,44 @@
+- id: assisted_shopping
+  title: Assisted shopping
+  description: Find a suitable product and help select a variant with explicit cart confirmation.
+  trigger: The customer wants help choosing or buying a product.
+  states:
+    - {id: preferences, action: Ask for missing preferences and intended use.}
+    - {id: search, action: Search and explain suitable products., tools: [search_products, get_product]}
+    - {id: variant, action: Verify and select the requested variant., tools: [get_product_variants, select_variant]}
+    - {id: cart, action: Ask for explicit item and quantity confirmation before adding. Stop if approval is unavailable., tools: [add_to_cart, get_cart, open_cart]}
+  transitions:
+    - {source: START, target: preferences}
+    - {source: preferences, target: search, condition: Preferences are sufficient.}
+    - {source: search, target: variant, condition: The customer chose a product.}
+    - {source: variant, target: cart, condition: The customer wants the selected variant added.}
+    - {source: search, target: END, condition: No match or customer declines.}
+    - {source: variant, target: END, condition: No suitable variant or customer only wants advice.}
+    - {source: cart, target: END}
+- id: order_support
+  title: Order support
+  description: Explain only the authenticated customer's own order information.
+  trigger: The customer asks about their orders.
+  states:
+    - {id: identify, action: Request own orders through trusted identity; ask to sign in if denied., tools: [get_my_orders]}
+    - {id: details, action: Retrieve the chosen owned order and explain its status without inventing delivery dates., tools: [get_my_order]}
+    - {id: policy, action: Find relevant delivery or return policy with citations., tools: [search_knowledge]}
+  transitions:
+    - {source: START, target: identify}
+    - {source: identify, target: details, condition: Authenticated and an owned order is selected.}
+    - {source: identify, target: END, condition: Access denied or no order found.}
+    - {source: details, target: policy, condition: The customer asks a policy question.}
+    - {source: details, target: END, condition: The status answers the question.}
+    - {source: policy, target: END}
+- id: product_comparison
+  title: Product comparison
+  description: Compare verified product facts against the customer's preferences.
+  trigger: The customer wants to compare products.
+  states:
+    - {id: candidates, action: Clarify the products and comparison criteria., tools: [search_products]}
+    - {id: compare, action: Read each product and compare supported facts; label missing information., tools: [get_product, get_product_variants]}
+  transitions:
+    - {source: START, target: candidates}
+    - {source: candidates, target: compare, condition: At least two products are identified.}
+    - {source: candidates, target: END, condition: The customer declines or there are insufficient matches.}
+    - {source: compare, target: END}

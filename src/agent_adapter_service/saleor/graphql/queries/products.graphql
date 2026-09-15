@@ -1,0 +1,78 @@
+# Select operationName when executing this document; retain its referenced fragments.
+# Services must enforce 1 <= first <= 100 and a trusted channel slug.
+query ProductList(
+  $channel: String!
+  $first: Int!
+  $after: String
+  $search: String
+  $where: ProductWhereInput
+  $sortBy: ProductOrder
+) {
+  products(
+    channel: $channel
+    first: $first
+    after: $after
+    search: $search
+    where: $where
+    sortBy: $sortBy
+  ) {
+    edges {
+      cursor
+      node {
+        ...ProductSummaryFields
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}
+
+query ProductById($id: ID!, $channel: String!) {
+  product(id: $id, channel: $channel) {
+    ...ProductDetailFields
+  }
+}
+
+query ProductBySlug($slug: String!, $channel: String!) {
+  product(slug: $slug, channel: $channel) {
+    ...ProductDetailFields
+  }
+}
+
+fragment ProductSummaryFields on Product {
+  id
+  name
+  slug
+  thumbnail {
+    url
+    alt
+  }
+  isAvailable
+  isAvailableForPurchase
+  pricing {
+    onSale
+    displayGrossPrices
+    priceRange {
+      start {
+        gross { amount currency }
+        net { amount currency }
+      }
+      stop {
+        gross { amount currency }
+        net { amount currency }
+      }
+    }
+  }
+}
+
+fragment ProductDetailFields on Product {
+  ...ProductSummaryFields
+  description
+  category { id name slug }
+  productType { id name }
+  defaultVariant { id name sku }
+}

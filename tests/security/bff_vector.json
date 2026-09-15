@@ -1,0 +1,23 @@
+{
+  "key": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8=",
+  "claims": {
+    "iss": "storefront",
+    "aud": "adapter",
+    "iat": 1800000000,
+    "exp": 1800000060,
+    "jti": "0123456789abcdef",
+    "scope": {
+      "tenant_id": "tenant",
+      "store_id": "store"
+    },
+    "identity": {
+      "visitor_id": "visitor",
+      "status": "anonymous"
+    }
+  },
+  "body": "{\"message\":\"你好\\n世界\",\"number\":1}",
+  "path": "/api/agent",
+  "payload": "eyJpc3MiOiJzdG9yZWZyb250IiwiYXVkIjoiYWRhcHRlciIsImlhdCI6MTgwMDAwMDAwMCwiZXhwIjoxODAwMDAwMDYwLCJqdGkiOiIwMTIzNDU2Nzg5YWJjZGVmIiwic2NvcGUiOnsidGVuYW50X2lkIjoidGVuYW50Iiwic3RvcmVfaWQiOiJzdG9yZSJ9LCJpZGVudGl0eSI6eyJ2aXNpdG9yX2lkIjoidmlzaXRvciIsInN0YXR1cyI6ImFub255bW91cyJ9fQ",
+  "signature": "r-cY2Go2fgQ7cqXXdcky7QEmgvRzACmkTasAKgiRj2I",
+  "authorization": "v1.active.eyJpc3MiOiJzdG9yZWZyb250IiwiYXVkIjoiYWRhcHRlciIsImlhdCI6MTgwMDAwMDAwMCwiZXhwIjoxODAwMDAwMDYwLCJqdGkiOiIwMTIzNDU2Nzg5YWJjZGVmIiwic2NvcGUiOnsidGVuYW50X2lkIjoidGVuYW50Iiwic3RvcmVfaWQiOiJzdG9yZSJ9LCJpZGVudGl0eSI6eyJ2aXNpdG9yX2lkIjoidmlzaXRvciIsInN0YXR1cyI6ImFub255bW91cyJ9fQ.r-cY2Go2fgQ7cqXXdcky7QEmgvRzACmkTasAKgiRj2I"
+}

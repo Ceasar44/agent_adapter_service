@@ -1,0 +1,13 @@
+# Environment RAG_MCP_URL overrides url. Credentials remain in environment variables.
+url: http://localhost:8002/mcp
+auth_token_env: RAG_MCP_TOKEN
+headers_env: {}
+timeout_seconds: 30
+allowed_tools:
+  - query_knowledge_hub
+  - list_collections
+  - get_document_summary
+# Only read-only discovery is retried; tool calls are never automatically replayed.
+retry:
+  max_attempts: 2
+  delay_seconds: 0.2

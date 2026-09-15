@@ -1,0 +1,14 @@
+- {name: search_products, risk: low, confirmation: auto}
+- {name: get_product, risk: low, confirmation: auto}
+- {name: get_product_variants, risk: low, confirmation: auto}
+- {name: get_my_orders, risk: low, confirmation: auto}
+- {name: get_my_order, risk: low, confirmation: auto}
+- {name: search_knowledge, risk: low, confirmation: auto}
+- {name: get_cart, risk: low, confirmation: auto}
+- {name: get_checkout_summary, risk: low, confirmation: auto}
+- {name: navigate, risk: low, confirmation: auto}
+- {name: open_product, risk: low, confirmation: auto}
+- {name: select_variant, risk: low, confirmation: auto}
+- {name: open_cart, risk: low, confirmation: auto}
+- {name: open_checkout, risk: low, confirmation: auto}
+- {name: add_to_cart, risk: medium, confirmation: confirm}

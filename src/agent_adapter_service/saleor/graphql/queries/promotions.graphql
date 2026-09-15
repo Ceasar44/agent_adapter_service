@@ -1,0 +1,3 @@
+query PromotionById($id: ID!) {
+  promotion(id: $id) { ...PromotionSummaryFields }
+}

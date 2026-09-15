@@ -1,0 +1,88 @@
+# Fetch variants separately from product details to keep pagination bounded.
+# Services must enforce 1 <= first <= 100 and bound attributeLimit.
+query VariantList(
+  $productId: ID!
+  $channel: String!
+  $first: Int!
+  $after: String
+  $where: ProductVariantWhereInput
+  $attributeLimit: PositiveInt! = 20
+) {
+  product(id: $productId, channel: $channel) {
+    id
+    productVariants(first: $first, after: $after, where: $where) {
+      edges {
+        cursor
+        node { ...VariantSummaryFields }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+}
+
+query VariantById(
+  $id: ID!
+  $channel: String!
+  $attributeLimit: PositiveInt! = 20
+) {
+  productVariant(id: $id, channel: $channel) {
+    ...VariantSummaryFields
+  }
+}
+
+query VariantBySku(
+  $sku: String!
+  $channel: String!
+  $attributeLimit: PositiveInt! = 20
+) {
+  productVariant(sku: $sku, channel: $channel) {
+    ...VariantSummaryFields
+  }
+}
+
+fragment VariantSummaryFields on ProductVariant {
+  id
+  name
+  sku
+  product { id name slug isAvailable isAvailableForPurchase }
+  trackInventory
+  quantityAvailable
+  quantityLimitPerCustomer
+  pricing {
+    onSale
+    price {
+      gross { amount currency }
+      net { amount currency }
+    }
+    priceUndiscounted {
+      gross { amount currency }
+      net { amount currency }
+    }
+  }
+  assignedAttributes(limit: $attributeLimit) {
+    __typename
+    attribute { id name slug }
+    ... on AssignedSingleChoiceAttribute {
+      choice: value { name slug }
+    }
+    ... on AssignedMultiChoiceAttribute {
+      choices: value(limit: $attributeLimit) { name slug }
+    }
+    ... on AssignedSwatchAttribute {
+      swatch: value {
+        name
+        slug
+        hexColor
+        file { url }
+      }
+    }
+    ... on AssignedPlainTextAttribute { text: value }
+    ... on AssignedNumericAttribute { number: value }
+    ... on AssignedBooleanAttribute { boolean: value }
+  }
+}

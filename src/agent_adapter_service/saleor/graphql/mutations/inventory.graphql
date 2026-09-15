@@ -1,0 +1,15 @@
+# Admin operations only. StockInput identifies a warehouse and absolute quantity.
+# These operations do not increment stock; validate nonnegative quantities in services.
+mutation VariantStocksCreate($variantId: ID!, $stocks: [StockInput!]!) {
+  productVariantStocksCreate(variantId: $variantId, stocks: $stocks) {
+    productVariant { id sku }
+    errors { field message code index }
+  }
+}
+
+mutation VariantStocksUpdate($variantId: ID!, $stocks: [StockInput!]!) {
+  productVariantStocksUpdate(variantId: $variantId, stocks: $stocks) {
+    productVariant { id sku }
+    errors { field message code index }
+  }
+}

@@ -1,0 +1,61 @@
+# Tokens are supplied through environment variables.
+auth_mode: opaque_token
+path: /mcp
+store_scope:
+  tenant_id: default
+  store_id: default
+enabled_tools:
+- create_product
+- update_product
+- publish_product
+- update_variant
+- update_variant_price
+- update_stock
+- get_stock
+- get_order
+- cancel_order
+- fulfill_order
+- get_customer
+- update_customer
+- create_collection
+- update_collection
+- add_products_to_collection
+- create_promotion
+- update_promotion
+- disable_promotion
+required_scopes:
+  create_product: products:write
+  update_product: products:write
+  publish_product: products:write
+  update_variant: products:write
+  update_variant_price: products:write
+  update_stock: inventory:write
+  get_stock: inventory:read
+  get_order: orders:read
+  cancel_order: orders:cancel
+  fulfill_order: orders:fulfill
+  get_customer: customers:read
+  update_customer: customers:write
+  create_collection: collections:write
+  update_collection: collections:write
+  add_products_to_collection: collections:write
+  create_promotion: promotions:write
+  update_promotion: promotions:write
+  disable_promotion: promotions:write
+clients:
+- token_env: ADMIN_MCP_OPERATOR_TOKEN
+  principal:
+    client_id: operator
+    tenant_id: default
+    store_id: default
+    scopes:
+    - collections:write
+    - customers:read
+    - customers:write
+    - inventory:read
+    - inventory:write
+    - orders:cancel
+    - orders:fulfill
+    - orders:read
+    - products:write
+    - promotions:write

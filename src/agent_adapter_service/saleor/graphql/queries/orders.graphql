@@ -1,0 +1,95 @@
+# customerId must come from verified identity, never directly from model input.
+# Services must enforce 1 <= first <= 100.
+query OrdersByCustomer(
+  $customerId: ID!
+  $first: Int!
+  $after: String
+  $where: CustomerOrderWhereInput
+) {
+  user(id: $customerId) {
+    id
+    orders(first: $first, after: $after, where: $where) {
+      edges {
+        cursor
+        node { ...OrderSummaryFields }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+}
+
+# With service credentials, check this result before fetching customer details.
+# A null order/user or an identity mismatch must fail closed in OrderService.
+query OrderOwnershipById($id: ID!) {
+  order(id: $id) {
+    id
+    user { id }
+  }
+}
+
+# Admin access or previously verified ownership is required. Recheck user.id
+# on this response before returning data, in case ownership changed meanwhile.
+query OrderById($id: ID!) {
+  order(id: $id) {
+    ...OrderSummaryFields
+    user { id }
+    shippingMethodName
+    subtotal {
+      gross { amount currency }
+      net { amount currency }
+    }
+    shippingPrice {
+      gross { amount currency }
+      net { amount currency }
+    }
+    lines {
+      id
+      productName
+      variantName
+      productSku
+      quantity
+      quantityFulfilled
+      quantityToFulfill
+      unitPrice {
+        gross { amount currency }
+        net { amount currency }
+      }
+      totalPrice {
+        gross { amount currency }
+        net { amount currency }
+      }
+    }
+    fulfillments {
+      id
+      status
+      trackingNumber
+      created
+      lines {
+        id
+        quantity
+        orderLine { id }
+      }
+    }
+  }
+}
+
+fragment OrderSummaryFields on Order {
+  id
+  number
+  created
+  status
+  statusDisplay
+  isPaid
+  authorizeStatus
+  chargeStatus
+  channel { id slug currencyCode }
+  total {
+    gross { amount currency }
+    net { amount currency }
+  }
+}
