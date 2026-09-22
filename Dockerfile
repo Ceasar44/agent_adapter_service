@@ -1,8 +1,15 @@
 FROM python:3.11-slim-bookworm AS builder
 
-ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple \
+    PIP_DEFAULT_TIMEOUT=300 \
+    PIP_RETRIES=10 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
-RUN apt-get update \
+RUN sed -i \
+    -e 's|http://deb.debian.org/debian|https://mirrors.tuna.tsinghua.edu.cn/debian|g' \
+    -e 's|http://deb.debian.org/debian-security|https://mirrors.tuna.tsinghua.edu.cn/debian-security|g' \
+    /etc/apt/sources.list.d/debian.sources \
+    && apt-get update \
     && apt-get install -y --no-install-recommends build-essential \
     && rm -rf /var/lib/apt/lists/*
 
@@ -13,7 +20,8 @@ RUN python -m venv /opt/venv
 COPY pyproject.toml README.md ./
 COPY src/ ./src/
 
-RUN /opt/venv/bin/python -m pip install ".[integrations]" \
+RUN --mount=type=cache,target=/root/.cache/pip \
+    /opt/venv/bin/python -m pip install ".[integrations]" \
     && /opt/venv/bin/python -m pip check
 
 
@@ -50,6 +58,6 @@ COPY scripts/ ./scripts/
 
 USER adapter:adapter
 
-EXPOSE 8080
+EXPOSE 8000
 
-CMD ["python", "-m", "uvicorn", "agent_adapter_service.main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "1", "--no-access-log"]
+CMD ["python", "-m", "uvicorn", "agent_adapter_service.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--no-access-log"]

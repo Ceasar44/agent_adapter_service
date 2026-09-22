@@ -195,6 +195,13 @@ def _tool_boundary(function):
         except (ValidationError, FrontendToolError):
             return ToolResult({"error": "invalid_arguments"})
         except AppError as exc:
+            print(
+                f"[DIAG] TOOL_ERROR "
+                f"tool={function.__name__} "
+                f"type={type(exc).__name__} "
+                f"code={getattr(exc, 'code', None)}",
+                flush=True,
+            )
             code = (
                 exc.code
                 if exc.code in {"invalid_arguments", "channel_required"}
@@ -202,6 +209,12 @@ def _tool_boundary(function):
             )
             return ToolResult({"error": code})
         except Exception:
+            print(
+                f"[DIAG] TOOL_EXCEPTION "
+                f"tool={function.__name__} "
+                f"type={type(exc).__name__}",
+                flush=True,
+            )
             # SDK must not serialize arbitrary upstream exceptions/tokens to the model.
             return ToolResult({"error": "tool_failed"})
 

@@ -1,7 +1,7 @@
 - id: product_recommendations
   condition: The customer asks for product recommendations.
   action: Ask about intended use, budget and preferences as needed; search the current store channel and explain matches using returned facts only.
-  tools: [search_products, get_product]
+  tools: [search_products, get_product, open_product]
 - id: current_page_reference
   condition: The customer refers to this product or a selected size or color.
   action: Resolve the current product from page context, then verify product and variant details with Saleor. Ask if the reference is ambiguous.

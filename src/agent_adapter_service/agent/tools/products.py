@@ -16,13 +16,29 @@ def create_tools(deps: ToolDependencies):
     async def search_products(
         context: p.ToolContext,
         query: str,
-        first: int = 10,
         after: str | None = None,
     ) -> p.ToolResult:
         """Search published products in the current storefront channel; paginate with after."""
+        print("[DIAG] search_products ENTER", flush=True)
+
         active = await deps.authorize(context, "search_products")
+
+        print("[DIAG] search_products AUTHORIZED", flush=True)
+
+        channel = await deps.channel(active)
+        print(
+            f"[DIAG] search_products CHANNEL={channel}",
+            flush=True,
+        )
+        first = 10
         result = await required(deps.products).search_products(
             query, await deps.channel(active), first=page_size(first), after=after
+        )
+
+        print(
+            f"[DIAG] search_products RESULT_COUNT={len(result.items)} "
+            f"HAS_NEXT={result.page_info.has_next_page}",
+            flush=True,
         )
         return p.ToolResult(compact(result))
 

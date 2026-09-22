@@ -2,8 +2,8 @@
 auth_mode: opaque_token
 path: /mcp
 store_scope:
-  tenant_id: default
-  store_id: default
+  tenant_id: tenant01
+  store_id: store01
 enabled_tools:
 - create_product
 - update_product
@@ -46,8 +46,8 @@ clients:
 - token_env: ADMIN_MCP_OPERATOR_TOKEN
   principal:
     client_id: operator
-    tenant_id: default
-    store_id: default
+    tenant_id: tenant01
+    store_id: store01
     scopes:
     - collections:write
     - customers:read

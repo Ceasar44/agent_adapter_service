@@ -60,7 +60,7 @@ class ProductService:
         channel: str,
         *,
         filters: ProductWhereInput | None = None,
-        first: int = 20,
+        first: int = 10,
         after: str | None = None,
         sort_by: ProductOrder | None = None,
     ) -> Page[ProductSummary]:
